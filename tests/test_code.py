@@ -1,7 +1,8 @@
 # tests/test_hello.py
-from ..code import main
+from code import main
 from io import StringIO
 import sys
+
 
 def test_hello(capsys):
     captured_output = StringIO()
