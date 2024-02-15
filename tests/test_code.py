@@ -1,5 +1,7 @@
 # tests/test_hello.py
-from ..code import main
+import sys
+sys.path.append("..")
+from code import main
 from io import StringIO
 import sys
 
