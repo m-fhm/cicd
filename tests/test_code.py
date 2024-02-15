@@ -1,5 +1,5 @@
 # tests/test_hello.py
-from code import main
+from .code import main
 from io import StringIO
 import sys
 
