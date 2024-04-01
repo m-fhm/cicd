@@ -10,7 +10,7 @@ jobs:
 
     - name: Setup Debugging
       run: |
-        echo "Checking for Host: ${{ secrets.HOST }}"
+        echo "Checking for Host: ${{ secrets.HOSTNAME }}"
         echo "Checking for Username: ${{ secrets.USERNAME }}"
         # Don't echo the key! It's sensitive
         if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
@@ -22,7 +22,7 @@ jobs:
     - name: Copy script.py to EC2
       uses: appleboy/scp-action@master
       with:
-        host: ${{ secrets.HOST }}
+        host: ${{ secrets.HOSTNAME }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "cicd_test/script.py"
