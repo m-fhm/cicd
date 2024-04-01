@@ -6,7 +6,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Copy script.py to EC2
       uses: appleboy/scp-action@master
@@ -18,7 +18,7 @@ jobs:
         source: "cicd_test/script.py"
         target: "/home/ubuntu/Diabetes"
 
-        
+
     - name: Execute script.py on EC2
       uses: appleboy/ssh-action@master
       with:
