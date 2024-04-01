@@ -18,6 +18,7 @@ jobs:
         source: "cicd_test/script.py"
         target: "/home/ubuntu/Diabetes"
 
+        
     - name: Execute script.py on EC2
       uses: appleboy/ssh-action@master
       with:
