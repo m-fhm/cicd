@@ -8,16 +8,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup Debugging
+      run: |
+        echo "Checking for Host: ${{ secrets.HOST }}"
+        echo "Checking for Username: ${{ secrets.USERNAME }}"
+        # Don't echo the key! It's sensitive
+        if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+          echo "SSH_PRIVATE_KEY is empty"
+        else
+          echo "SSH_PRIVATE_KEY is set"
+        fi
+
     - name: Copy script.py to EC2
       uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "cicd_test/script.py"
         target: "/home/ubuntu/Diabetes"
-
+      continue-on-error: true
 
     - name: Execute script.py on EC2
       uses: appleboy/ssh-action@master
