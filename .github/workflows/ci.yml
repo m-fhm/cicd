@@ -26,7 +26,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "cicd_test/script.py"
         target: "/home/ubuntu/Diabetes"
-      continue-on-error: false
+      
 
     - name: Execute script.py on EC2
       uses: appleboy/ssh-action@master
