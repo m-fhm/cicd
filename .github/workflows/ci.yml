@@ -1,6 +1,9 @@
 name: Deploy and Execute Script on EC2
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   deploy:
@@ -18,19 +21,19 @@ jobs:
           echo "SSH_PRIVATE_KEY is set"
         fi
 
-    - name: List files in cicd_test directory
+    - name: List files in working directory
       run: |
-        echo "Listing files in cicd_test directory:"
-        ls -alh cicd_test/
+        echo "Listing files in working directory:"
+        ls -alh
 
     - name: Check if script.py and requirements.txt exist
       run: |
-        if [ ! -f cicd_test/script.py ]; then
-          echo "script.py does not exist in cicd_test directory"
+        if [ ! -f script.py ]; then
+          echo "script.py does not exist"
           exit 1
         fi
-        if [ ! -f cicd_test/requirements.txt ]; then
-          echo "requirements.txt does not exist in cicd_test directory"
+        if [ ! -f requirements.txt ]; then
+          echo "requirements.txt does not exist"
           exit 1
         fi
 
@@ -40,7 +43,7 @@ jobs:
         host: ${{ secrets.HOSTNAME }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "cicd_test/script.py,cicd_test/requirements.txt"
+        source: "script.py,requirements.txt"
         target: "/home/ubuntu/Diabetes"
 
     - name: Execute script.py on EC2
