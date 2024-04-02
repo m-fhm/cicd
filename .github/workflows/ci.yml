@@ -18,15 +18,26 @@ jobs:
           echo "SSH_PRIVATE_KEY is set"
         fi
 
+    - name: List files in cicd_test directory
+      run: |
+        echo "Listing files in cicd_test directory:"
+        ls -alh cicd_test/
+
+    - name: Check if script.py and requirements.txt exist
+      run: |
+        if [ ! -f cicd_test/script.py ]; then
+          echo "script.py does not exist in cicd_test directory"
+          exit 1
+        fi
+ 
     - name: Copy script.py and requirements.txt to EC2
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOSTNAME }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "cicd_test/script.py"
+        source: "cicd_test/script.py
         target: "/home/ubuntu/Diabetes"
-      
 
     - name: Execute script.py on EC2
       uses: appleboy/ssh-action@master
@@ -36,7 +47,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /home/ubuntu/Diabetes
-          mkdir tasks
+          mkdir -p tasks
           sudo apt-get update
           sudo apt-get install -y python3-pip
+          pip3 install -r requirements.txt
           python3 script.py
